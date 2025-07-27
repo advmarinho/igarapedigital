@@ -68,9 +68,9 @@ python app.py
 
 | Campo              | Exemplo                      |
 |-------------------|------------------------------|
-| Nome              | ANA PAULA SOUZA              |
+| Nome              | NOME SOBRENOME               |
 | CPF               | 123.456.789-00               |
-| Plano             | MEDISERVICE BRANCO APTO      |
+| Plano             | OPERADORA APTO               |
 | Tp                | Titular / Dependente         |
 | Rubrica           | Mensalidade / Total Prêmio   |
 | Valor             | R$ 89,32                     |
