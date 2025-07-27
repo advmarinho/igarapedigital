@@ -41,7 +41,7 @@ RE_HEADER_SAUDE_ALT = re.compile(r"""
 VAL = r"(?P<val>\d[\d\.]*,\d{2})"
 RE_VALS_SAUDE = {
     "premio_base": re.compile(r"Prêmio\s+Base\s*" + VAL),
-    "desc_copart": re.compile(r"(Desc(?:onto)?\s+por\s+Co[- ]?Part(?:\.|icipação)?\s*\(-?\))?\s*" + VAL),
+    #"desc_copart": re.compile(r"(Desc(?:onto)?\s+por\s+Co[- ]?Part(?:\.|icipação)?\s*\(-?\))?\s*" + VAL),
     "total_copart": re.compile(r"Total\s+Co[- ]?Part\.\s*R?\$?\s*" + VAL),
     "consultas": re.compile(r"CONSULTAS[^\d]*" + VAL),
     "exames": re.compile(r"EXAMES[^\d]*" + VAL),
@@ -82,7 +82,11 @@ def processar_saude(pdf_path: str) -> pd.DataFrame:
 
         for m, nxt in zip(matches, itertools.chain(matches[1:], [None])):
             d = m.groupdict()
-            corpo = texto[m.end():nxt.start() if nxt else len(texto)]
+            corpo = texto[m.end(): nxt.start() if nxt else len(texto)]
+
+            # ── NOVO: extrair nome do Plano da primeira linha do corpo
+            linhas = [l for l in corpo.splitlines() if l.strip()]
+            d['plano'] = linhas[0].strip() if linhas else None
 
             for campo, rx in RE_VALS_SAUDE.items():
                 mm = rx.search(corpo)
@@ -97,31 +101,33 @@ def processar_saude(pdf_path: str) -> pd.DataFrame:
 
         for tm in total_matches:
             total_val = to_float(tm.group(1))
-            candidatos = [r for r in registros if r.get("parentesco", "") == "Titular" and r["_start"] < tm.start()]
+            candidatos = [r for r in registros if r.get("parentesco","") == "Titular" and r["_start"] < tm.start()]
             if candidatos:
                 candidatos[-1]["_total"] = total_val
 
     df = pd.DataFrame(registros)
-    if df.empty: return df
+    if df.empty:
+        return df
 
-    df["seguro"] = df["seguro"].ffill()
+    df["seguro"] = df["seguro"].ffill().astype(str)
     df["dep"] = df["dep"].astype(int)
     df["idade"] = df["idade"].astype(int)
-    df["seguro"] = df["seguro"].astype(str)
+    df["plano"] = df["plano"].astype(str)
 
     df["total_familiar"] = df.get("_total")
     if df["total_familiar"].isnull().all():
         total_agrupado = df.groupby(["seguro"]).agg({"total_dep": "sum"}).reset_index()
-        df = df.merge(total_agrupado, on="seguro", suffixes=("", "_agrupado"))
+        df = df.merge(total_agrupado, on="seguro", suffixes=("","_agrupado"))
         df["total_familiar"] = df["total_dep_agrupado"]
         df.drop(columns=["total_dep_agrupado"], inplace=True)
 
-    df.drop(columns=["_start", "_total"], errors="ignore", inplace=True)
+    df.drop(columns=["_start","_total"], errors="ignore", inplace=True)
 
-    num_cols = [c for c in df.columns if c not in {"seguro", "dep", "nome", "idade", "parentesco", "reg_func"}]
+    num_cols = [c for c in df.columns if c not in {"seguro","dep","nome","idade","parentesco","reg_func","plano"}]
     df[num_cols] = df[num_cols].fillna(0.0).infer_objects()
-    df.columns = [col.capitalize().replace("_", " ") for col in df.columns]
-    return df.sort_values(["Seguro", "Dep"])
+    df.columns = [col.capitalize().replace("_"," ") for col in df.columns]
+
+    return df.sort_values(["Seguro","Dep"])
 
 # ---------------------- EXPRESSÕES ODONTO ----------------------------
 RE_ODONTO_SEGURO = re.compile(r"""
@@ -200,7 +206,7 @@ def processar_odonto(pdf_path: str) -> pd.DataFrame:
     df["Dependência"] = df["dependencia"].fillna("Titular")
 
     df.rename(columns={
-        "num": "N° Beneficiário", "nome": "Nome", "matricula": "Matrícula",
+        "num": "N° Beneficiário", "nome": "Nome", "matricula": "Matrícula",    
         "cpf": "CPF", "plano": "Plano", "rubrica": "Rubrica", "id": "Id"
     }, inplace=True)
 
@@ -269,7 +275,10 @@ class InterfaceApp(ctk.CTk):
         finally:
             self.esconder_progresso()
 
-# ---------------------- RUN ----------------------------
 if __name__ == "__main__":
     app = InterfaceApp()
     app.mainloop()
+    
+"""
+"pyinstaller --onefile --windowed --name="AppSaudeOdonto1" --icon="app.ico" AppSaudeOdonto1.py"
+"""
