@@ -14,7 +14,7 @@ A aplicação possui uma **interface gráfica moderna e simples**, feita com `Cu
 
 - 📑 **Faturas de Saúde**
 - 🦷 **Faturas de Odontologia**
-**Download** [Link](https://drive.google.com/file/d/1w1NxoCeawM52X88Lw1Nme28cVDWFCDUM/view?usp=drive_link)
+- **Download** [Link](https://drive.google.com/file/d/1w1NxoCeawM52X88Lw1Nme28cVDWFCDUM/view?usp=drive_link)
 ---
 
 ## 🎯 Funcionalidades
