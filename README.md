@@ -94,12 +94,12 @@ python app.py
 
 ## 📚 Sobre os layouts
 
-### Porto Seguro Saúde
+### Seguro Saúde
 - Os blocos começam após `Seguro Dep`
 - Utiliza duas expressões regex para variações de layout
 - Calcula total familiar via soma ou campo explícito
 
-### Porto Seguro Odonto
+### Seguro Odonto
 - Tenta regex robusto com campos nomeados
 - Em fallback, usa regex alternativo mais flexível
 - Captura IOF por rubrica em blocos posteriores
