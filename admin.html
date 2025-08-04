@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin – Sorteado Igarapé Digital</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Sorteio</h1>
+
+    <div class="inputs">
+      <label>De: <input type="number" id="min" value="1"></label>
+      <label>Até: <input type="number" id="max" value="100"></label>
+    </div>
+
+    <button id="sortear">Sortear</button>
+
+    <p id="numero-sorteado" style="font-size: 1.5em; color: #007bff; margin-top: 10px;">
+      Último número sorteado: –
+    </p>
+
+    <p id="counter">Participantes: 0</p>
+
+    <div class="qr">
+      <p>Escaneie para participar:</p>
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://192.168.15.46:8000/index.html"
+        alt="QR Code Sorteio">
+    </div>
+
+    <!-- Apenas ganhadores -->
+    <div class="historico">
+      <h2>Sorteios com match (ganhadores)</h2>
+      <ul id="historico-match">
+        <!-- Preenchido pelo admin.js -->
+      </ul>
+    </div>
+  </div>
+
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>
+

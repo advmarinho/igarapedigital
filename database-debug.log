@@ -1,0 +1,14 @@
+22:58:34.331 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+22:58:34.509 [main] INFO com.firebase.server.forge.App$ - Listening at 0.0.0.0:9000
+22:58:35.077 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - undefined-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 156ms, init: 0ms
+22:58:35.177 [NamespaceSystem-blocking-namespace-operation-dispatcher-6] INFO com.firebase.core.namespace.StateManager - Namespace undefined-default-rtdb status Active to Active
+22:58:43.009 [FirebaseWorkerPool-1-3] WARN com.firebase.core.persistence.backend.dummy.EmulatorMetadataPersistence - Multiple projectIds are not recommended in single project mode. Requested 
+namespace sorteador-igarape-digital-default-rtdb, but the emulator is configured for undefined-default-rtdb. To 
+opt-out of single project mode add/set the singleProjectMode: false property in 
+the firebase.json emulators config. 
+22:58:43.018 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - sorteador-igarape-digital-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 4ms, init: 0ms
+23:11:36.110 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+23:11:36.121 [NamespaceSystem-akka.actor.default-dispatcher-44] INFO com.firebase.core.namespace.Terminator$Terminator - 2 actors left to terminate: undefined-default-rtdb, sorteador-igarape-digital-default-rtdb
+23:11:36.125 [NamespaceSystem-akka.actor.default-dispatcher-52] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for sorteador-igarape-digital-default-rtdb
+23:11:36.127 [NamespaceSystem-akka.actor.default-dispatcher-57] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for undefined-default-rtdb
+23:11:36.137 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.

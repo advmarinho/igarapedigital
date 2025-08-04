@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "participants": {
+      ".read": true,
+      ".write": true
+    },
+    "draw": {
+      "current": {
+        ".read": true,
+        ".write": "newData.child('token').val() === 'SEGREDO_ADMIN'"
+      }
+    }
+  }
+}
